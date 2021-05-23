@@ -1,6 +1,6 @@
+#include "Parser.hpp"
 #include "PageLoader/PageLoader.hpp"
-#include "Parser/Parser.hpp"
-#include "gumbo.h"
+#include <gumbo.h>
 
 #include <iostream>
 #include <string>
