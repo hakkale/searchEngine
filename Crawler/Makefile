@@ -2,10 +2,11 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall
 
 LDLIBS = -lcurl -I /home/linuxbrew/.linuxbrew/Cellar/gumbo-parser/include -L /home/linuxbrew/.linuxbrew/Cellar/gumbo-parser/0.10.1/lib -lgumbo
+
 all: CrawlerTest
 
-CrawlerTest: test.o PageLoader.o LoadResult.o Parser.o Website.o WebsiteRepository.o Link.o LinkStore.o Document.o DocumentStore.o
-	$(CXX) $(CXXFLAGS) test.o PageLoader.o LoadResult.o Parser.o Website.o WebsiteRepository.o Link.o LinkStore.o Document.o DocumentStore.o ${LDLIBS} -o CrawlerTest 
+CrawlerTest: main.o PageLoader.o LoadResult.o Parser.o Website.o WebsiteRepository.o Link.o LinkStore.o Document.o DocumentStore.o
+	$(CXX) $(CXXFLAGS) main.o PageLoader.o LoadResult.o Parser.o Website.o WebsiteRepository.o Link.o LinkStore.o Document.o DocumentStore.o ${LDLIBS} -o CrawlerTest 
 
 main.o: main.cpp
 	$(CXX) $(CXXFLAGS) -c main.cpp -o main.o
@@ -25,11 +26,11 @@ Website.o: ./WebsiteRepository/Website.cpp
 WebsiteRepository.o: ./WebsiteRepository/WebsiteRepository.cpp
 	$(CXX) $(CXXFLAGS) -c ./WebsiteRepository/WebsiteRepository.cpp -o WebsiteRepository.o
 
-Link.o: ./LinkStore/Link.cpp
+Link.o: ./LinkStore/Link.cpp ./LinkStore/LinkStatus.hpp 
 	$(CXX) $(CXXFLAGS) -c ./LinkStore/Link.cpp -o Link.o
 
-LinkStore.o: ./Link/LinkStore.cpp
-	$(CXX) $(CXXFLAGS) -c ./Link/LinkStore.cpp -o LinkStore.o
+LinkStore.o: ./LinkStore/LinkStore.cpp
+	$(CXX) $(CXXFLAGS) -c ./LinkStore/LinkStore.cpp -o LinkStore.o
 
 Document.o: ./DocumentStore/Document.cpp
 	$(CXX) $(CXXFLAGS) -c ./DocumentStore/Document.cpp -o Document.o

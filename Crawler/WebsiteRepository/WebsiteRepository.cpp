@@ -1,10 +1,10 @@
 #include "WebsiteRepository.hpp"
 #include "Website.hpp"
 
-WebsiteRepository::WebsiteRepository() {
-
-    this->add(Website("rau.am", "http://rau.am", 0));
-
+WebsiteRepository::WebsiteRepository(const std::vector<Website>& websites) {
+    for(const auto& website : websites){
+        this->add(website);
+    }   
 }
 
 std::vector<Website> WebsiteRepository::getAll() const

@@ -13,8 +13,9 @@ private:
     std::unordered_map<std::string, Website> websites;
 
 public:
+    WebsiteRepository(){};
 
-    WebsiteRepository();
+    WebsiteRepository(const std::vector<Website>& websites);
 
     std::vector<Website> getAll() const; // return websites
 

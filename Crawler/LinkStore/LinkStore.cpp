@@ -1,13 +1,14 @@
 #include "LinkStore.hpp"
 #include <algorithm>
+#include <iterator>
 #include <optional>
 
 const std::vector<Link> LinkStore::getAll() const
 {
-    return all;
+    return this->all;
 }
 
-optional<Link> LinkStore::getByUrl(const std::string &url) const
+std::optional<Link> LinkStore::getByUrl(const std::string &url) const
 {
     for (const auto &link : all)
     {
@@ -21,22 +22,18 @@ optional<Link> LinkStore::getByUrl(const std::string &url) const
 
 std::vector<Link> LinkStore::getBy(const std::string &domain, const LinkStatus status, std::size_t count) const
 {
-    std::vector<Link> res;
-
+    std::vector<Link> result;
     for (const auto &link : all)
     {
-        if (count == 0)
-        {
+        if (count == 0){
             break;
         }
-        if (link.getStatus() == status)
-        {
-            res.push_back(link);
+        if (link.getStatus() == status){
+            result.push_back(link);
             --count;
         }
     }
-
-    return res;
+    return result;
 }
 
 void LinkStore::add(const Link &link)
@@ -46,13 +43,11 @@ void LinkStore::add(const Link &link)
 
 void LinkStore::update(const Link &link)
 {
-    const auto &linkIter = std::find(all.begin(), all.end(), link);
-    if (linkIter != all.end())
-    {
+    const auto& linkIter = std::find(all.begin(), all.end(), link);
+    if (linkIter != all.end()) {
         *linkIter = link;
     }
-    else
-    {
+    else {
         all.push_back(link);
     }
 }

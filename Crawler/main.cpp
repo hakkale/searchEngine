@@ -1,6 +1,7 @@
 #include <iostream>
 #include "WebsiteRepository/WebsiteRepository.hpp"
-#include "Link/LinkStore.hpp"
+#include "LinkStore/LinkStore.hpp"
+#include "LinkStore/Link.hpp"
 #include "PageLoader/PageLoader.hpp"
 #include "PageLoader/LoadResult.hpp"
 #include "Parser/Parser.hpp"
@@ -14,6 +15,8 @@ int main()
 {
 
     WebsiteRepository websiteRepository;
+    websiteRepository.add(Website("rau.am", "http://rau.am", 0));
+
     //vercnum enq bolor websitery
     const auto& websites = websiteRepository.getAll();
 
@@ -24,10 +27,10 @@ int main()
     for (const auto &website : websites)
     {
         //aysinqn ayn website vory nor enq mshakel el chani ancni araj
-        auto& homepageLink = linkStore.getByUrl(website.getHomepage());
+        auto homepageLink = linkStore.getByUrl(website.getHomepage());
         if (homepageLink.has_value())
         {
-            linkStore.update(Link(website.getHomepage(),website.getDomain(),LinkStatus::WAITING,homepageLink.value().getLastTime());
+            linkStore.update(Link(website.getHomepage(),website.getDomain(),LinkStatus::WAITING,homepageLink.value().getLastLoadTime()));
         }
         else
         {
@@ -37,7 +40,7 @@ int main()
         while (true)
         {
             const auto& links = linkStore.getBy(website.getDomain(), LinkStatus::WAITING, 10); // getby greluc maximum 10 hat e veradardznum
-            if (link.empty())
+            if (links.empty())
             {
                 break; //ete linker chkan mek el orinak mi shabatic het kganq
             }
@@ -60,9 +63,9 @@ int main()
                 Parser parser(page.getUrl(), page.getBody());
                 parser.parse();
                 //stexcum enq document
-                for (const std::string &u : parser.getUrls())
+                for (const std::string &url : parser.getUrls())
                 {
-                    std::cout << u << "\n";
+                    std::cout << url << "\n";
                 }
                 documentStore.save(Document(page.getUrl(), parser.getTitle(), parser.getDescription(), parser.getAllText()));
 
@@ -70,20 +73,18 @@ int main()
                 for (const auto &newUrl : parser.getUrls())
                 {
                     //ete ka zut ancni araj
-                    if (linkStore.getBy(newUrl).has_value())
+                    if (linkStore.getByUrl(newUrl).has_value())
                     {
                         continue;
                     }
                     //ete chka avelacni
-                    linkStore.add(Link(link.getUrl(), link.getDomain(), LinkStatus
-                                       : WAITING, time(NULL)));
+                    linkStore.add(Link(link.getUrl(), link.getDomain(), LinkStatus:: WAITING, time(NULL)));
                 }
 
-                linkStore.update(Link(link.getUrl(), link.getDomain(), LinkStatus
-                                      : LOADED, time(NULL)));
+                linkStore.update(Link(link.getUrl(), link.getDomain(), LinkStatus:: LOADED, time(NULL)));
             }
         }
-        websiteRepository.update(Website(website.getId(), website.getDomain(), website.getHomepage(), time(NULL)));
+        websiteRepository.update(Website(website.getDomain(), website.getHomepage(), time(NULL)));
     }
 }
-}
+

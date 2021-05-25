@@ -1,7 +1,7 @@
 #include "Parser.hpp"
 #include <gumbo.h>
 #include <assert.h>
-#include <iostream>
+#include <optional>
 
 Parser::Parser(const std::string& url,const std::string& html){
     this->url = url;
@@ -25,9 +25,16 @@ void Parser::extractUrls(GumboNode* node){
         GumboAttribute* href = gumbo_get_attribute(&node->v.element.attributes, "href");
         if(href == NULL || href->value == NULL){
             return;
-
         }
-        this->urls.push_back(std::string(href->value));
+        /*
+        boost::regex ex("(http|https)://([^/ :]+):?([^/ ]*)(/?[^ #?]*)\\x3f?([^ #]*)#?([^ ]*)");
+        boost::cmatch what;
+        if(regex_match(url.c_str(), what, ex)) 
+        {
+            cout << "domain:" << string(what[2].first, what[2].second) << endl;
+        }
+        */
+        this->urls.push_back(href->value);
     }
 
     //ete orinak sksum enq html tagic iharke da link chi, bayc karox e ira mej parunakel a tager,dra hamar rekursiayov pttvum enq 
