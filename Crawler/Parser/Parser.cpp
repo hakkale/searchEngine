@@ -1,25 +1,21 @@
-#include "Parser/Parser.hpp"
+#include "Parser.hpp"
 #include <gumbo.h>
 #include <assert.h>
+#include <iostream>
 
 Parser::Parser(const std::string& url,const std::string& html){
     this->url = url;
     this->html = html;
+
 }
 
-void Parser::parse() {
-
-  GumboOutput* output = gumbo_parse(this->html.c_str());
-  this->extractUrls(output->root);
-  gumbo_destroy_output(&kGumboDefaultOptions, output);
-}
-
+//relative to absolute????
 void Parser::extractUrls(GumboNode* node){
     //vercnum enq node-y u ayd nodeic sksac man enq galis ayn tagery voronc mej link ka(a tagery)
     if (node->type != GUMBO_NODE_ELEMENT) {
         return;
     }
-      
+
     if (node->v.element.tag == GUMBO_TAG_A) {
         /**
          * Given a vector of GumboAttributes, look up the one with the specified name
@@ -29,9 +25,11 @@ void Parser::extractUrls(GumboNode* node){
         GumboAttribute* href = gumbo_get_attribute(&node->v.element.attributes, "href");
         if(href == NULL || href->value == NULL){
             return;
+
         }
         this->urls.push_back(std::string(href->value));
     }
+
     //ete orinak sksum enq html tagic iharke da link chi, bayc karox e ira mej parunakel a tager,dra hamar rekursiayov pttvum enq 
     GumboVector* children = &node->v.element.children;
     for (unsigned int i = 0; i < children->length; ++i) {
@@ -102,6 +100,16 @@ void Parser::extractDescription(GumboNode* node) {
     }
     
     return;
+}
+
+void Parser::parse() {
+    GumboOutput* output = gumbo_parse(this->html.c_str());
+    this->extractUrls(output->root);
+    this->allText = this->extractCleanText(output->root);
+    this->extractTitle(output->root);
+    this->extractDescription(output->root);
+    
+    gumbo_destroy_output(&kGumboDefaultOptions, output);
 }
 
 const std::vector<std::string>& Parser::getUrls() const {

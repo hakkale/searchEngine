@@ -1,5 +1,5 @@
-#ifndef PARSER_HPP
-#define PARSER_HPP
+#ifndef Parser_hpp
+#define Parser_hpp
 
 #include <string>
 #include <vector>
@@ -23,6 +23,8 @@ private:
        /**
      * Extracts clean text.
      */
+    std::string getHomeUrl(const std::string& url);
+
     std::string extractCleanText(GumboNode* node) const;
     
     /**

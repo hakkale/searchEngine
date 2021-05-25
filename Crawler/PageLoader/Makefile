@@ -3,7 +3,7 @@ CXXFLAGS = -c
 
 all: testLoader
 
-testLoader: test.o PageLoader.o LoadResult.o
+testLoader: test.o PageLoader.o LoadResult.o 
 	$(CXX) test.o PageLoader.o LoadResult.o -lcurl -o testLoader
 
 test.o: test.cpp PageLoader.hpp
