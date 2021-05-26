@@ -3,16 +3,20 @@
 
 #include <string>
 #include <ctime>
-//website linelu e mer inputy, u yndhanur ays moduly petq e websitery grel kardalu hamar,
-// kardalu e ur? DB, DB-n karox e lini hasarak vector karox e lini henc DB disci vra, karch asac ays moduly tnorinum e bolor websitery
 class Website
 {
 private:
-    //The domain of the site   
+    /*
+     * The domain of the site
+     */   
     std::string domain;  
-    //The homepage url
+    /*
+     * The homepage url
+     */
     std::string homepage;    
-    //The last crawling time
+    /*
+     * The last crawling time
+     */
     time_t lastCrawlingTime; 
     
 public:

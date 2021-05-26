@@ -7,14 +7,13 @@ class PageLoader
 {
 private:
     /**
-     * Callback function for writing received data.
+     * Function for writing received data.
      */
-    //static e qani vor ete chliner skzbum kavelacner evs mek argument this-y,isk da kxarner stacky
     static std::size_t getData(char *data, size_t size, size_t nmemb, void *userp);
 
 public:
     /**
-     * The content of HTML document.
+     * The body of HTML document.
      */
     LoadResult load(const std::string &url);
 };

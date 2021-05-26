@@ -13,15 +13,22 @@ private:
     std::unordered_map<std::string, Website> websites;
 
 public:
+
     WebsiteRepository(){};
-
     WebsiteRepository(const std::vector<Website>& websites);
-
-    std::vector<Website> getAll() const; // return websites
-
+    /*
+     * Return all websites
+     */
+    std::vector<Website> getAll() const; 
+    /*
+     * Add website to repository
+     */
     void add(const Website &website);
+    /*
+     * Update info for website
+     */
+    void update(const Website &website); 
 
-    void update(const Website &website); //update website[id] to website
 };
 
 #endif

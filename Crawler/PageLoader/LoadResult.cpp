@@ -23,5 +23,6 @@ long LoadResult::getStatus() const
     return status;
 }
 CURLcode LoadResult::isError() const {
+    
     return this->error;
 }

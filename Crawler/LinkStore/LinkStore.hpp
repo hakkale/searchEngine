@@ -10,24 +10,32 @@
 class LinkStore
 {
 private:
+    /*
+     * The all effective urls
+     */
     std::vector<Link> all;
 
 public:
     LinkStore(){};
-    //kveradardzni bolor linkery
+    /*
+     * Return all urls
+     */
     const std::vector<Link> getAll() const;
 
     std::optional<Link> getByUrl(const std::string& url) const;
-
-    //amen angam vercnelu enq ayn linkery voronq spasman mej en, hnaravor e che vor amen angam 1000 hat spasox link lini dra hamar el vercnum enq count vor orinak arajin 10 haty vercnenq
     std::vector<Link> getBy(const std::string &domain, const LinkStatus status, std::size_t count) const;
-
-    //add kogtagorcenq erb hertakan ejy crawl aneluc heto linkery stananq u avelacnenq, bayc ete arden ka chavelacnenq
+    /*
+     * Add new link to store
+     */
     void add(const Link &link);
 
-    //ete mi link mshakecinq vory spasman mej er gtnvum, petq e statusy poxel dardznel loaded kam error
+    /*
+     * Update info for link
+     */
     void update(const Link &link);
-
+    /*
+     * The count of links for editing
+     */
     std::size_t count() const;
 
 };

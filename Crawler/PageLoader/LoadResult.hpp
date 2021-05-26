@@ -7,11 +7,17 @@
 class LoadResult
 {
 private:
-    //the entire html document
+    /*
+     * The entire html document
+     */
     std::string body;
-    //the effective url
+    /*
+     * The effective url
+     */
     std::string url;
-    //the http response code
+    /*
+     * The http response code
+     */
     long status;
     CURLcode error;
 

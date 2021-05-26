@@ -8,9 +8,21 @@
 class Link
 {
 private:
+    /*
+     * The effective url
+     */
     std::string url;
+    /*
+     * The website domain
+     */
     std::string domain;
+    /*
+     * Current status
+     */
     LinkStatus status;
+    /*
+     * The last loaded time
+     */
     time_t lastLoadTime;
 
 public:
@@ -24,5 +36,7 @@ public:
     time_t getLastLoadTime() const;
     Link& operator== (const Link&);
     Link& operator=(const Link&);
+    
 };
+
 #endif

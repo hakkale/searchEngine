@@ -12,35 +12,41 @@ private:
      * The effective url.
      */
     std::string url; 
+    /**
+     * The html document
+     */
     std::string html;
+    /**
+     * All parsed urls
+     */
     std::vector<std::string> urls;
     std::string title;
     std::string description;
     std::string allText;
 private:
-
+    /**
+     * Extracts urls.
+     */
     void extractUrls(GumboNode* node);
-       /**
+    /**
      * Extracts clean text.
      */
-    std::string getHomeUrl(const std::string& url);
-
     std::string extractCleanText(GumboNode* node) const;
-    
     /**
-     * Extracts title tag content of the head tag.
+     * Extracts title.
      */
     void extractTitle(GumboNode* node);
-    
     /**
-     * Extract content of the content attribute of <meta name="description" content="Some content">
+     * Extracts description from "meta" tag
      */
     void extractDescription(GumboNode* node);
 
-
 public:
-    
+
     Parser(const std::string& url,const std::string& html);
+    /**
+     * Parse the HTML document.
+     */
     void parse();
     const std::vector<std::string>& getUrls() const;
     const std::string& getTitle() const;

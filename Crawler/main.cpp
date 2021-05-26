@@ -7,17 +7,13 @@
 #include "Parser/Parser.hpp"
 #include "DocumentStore/DocumentStore.hpp"
 
-//1.algoritmy sksvum e nranic vor sksum enq vazel websiteRepositroy-i
-//website-neri vrayov
-//2.ays websiteric yuraqanchyury petq e mshakenq
-//3.amen website-in petq pahenq herti mej
 int main()
 {
 
     WebsiteRepository websiteRepository;
-    websiteRepository.add(Website("rau.am", "http://rau.am", 0));
+    websiteRepository.add(Website("rau.am", "https://rau.am", 0));
 
-    //vercnum enq bolor websitery
+    //Get all websites from repository
     const auto& websites = websiteRepository.getAll();
 
     LinkStore linkStore;
@@ -26,58 +22,61 @@ int main()
 
     for (const auto &website : websites)
     {
-        //aysinqn ayn website vory nor enq mshakel el chani ancni araj
+        //Get urls from link store
         auto homepageLink = linkStore.getByUrl(website.getHomepage());
         if (homepageLink.has_value())
         {
+            //If url is already in link store, then update status
             linkStore.update(Link(website.getHomepage(),website.getDomain(),LinkStatus::WAITING,homepageLink.value().getLastLoadTime()));
         }
         else
         {
+            //If url is not in link store, then add
             linkStore.add(Link(website.getHomepage(), website.getDomain(), LinkStatus::WAITING, 0));
         }
-        //bun crawlingi algorithmy
+        //Start crawling algorithm
         while (true)
         {
-            const auto& links = linkStore.getBy(website.getDomain(), LinkStatus::WAITING, 10); // getby greluc maximum 10 hat e veradardznum
+            //Get 10 links from queue in status WAITING
+            const auto& links = linkStore.getBy(website.getDomain(), LinkStatus::WAITING, 10); 
             if (links.empty())
             {
-                break; //ete linker chkan mek el orinak mi shabatic het kganq
+                break; 
             }
-            //ete linker kan petq e mshakenq(herti linkery)
+            //If there is links, which should be edited
             for (const auto& link : links)
             {
-                //petq e load anenq pagey
+                // Load page 
                 const auto& page = pageLoader.load(link.getUrl());
-                //ete error e
+                // Error
                 if (page.isError() || page.getStatus() < 200 || page.getStatus() >= 300)
                 {
+                    //Update status
                     linkStore.update(Link(link.getUrl(), link.getDomain(), LinkStatus::ERROR, time(NULL)));
                     continue;
                 }
-                //ete error chka
+                //If there is no errors update link status 
                 linkStore.update(Link(link.getUrl(), link.getDomain(), LinkStatus::LOADED, time(NULL)));
 
-                //ete loady stacvel e uremn petq e parse anenq vor haskananq inch e petq mejic
-                //parse aneluc stanum enq nor urlner ...
+                //Parse page
                 Parser parser(page.getUrl(), page.getBody());
                 parser.parse();
-                //stexcum enq document
+
+                //Create document
                 for (const std::string &url : parser.getUrls())
                 {
-                    std::cout << url << "\n";
+                    std::cout << url << std::endl;
                 }
                 documentStore.save(Document(page.getUrl(), parser.getTitle(), parser.getDescription(), parser.getAllText()));
 
-                //hertov ditarkum enq nor urlnery, vor ete ka voch mi ban chanenq, ete chka avelacnenq
+                //Check new links
                 for (const auto &newUrl : parser.getUrls())
                 {
-                    //ete ka zut ancni araj
                     if (linkStore.getByUrl(newUrl).has_value())
                     {
                         continue;
                     }
-                    //ete chka avelacni
+                    //Add new link to queue
                     linkStore.add(Link(link.getUrl(), link.getDomain(), LinkStatus:: WAITING, time(NULL)));
                 }
 
