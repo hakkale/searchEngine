@@ -23,7 +23,7 @@ int main()
     for (const auto &website : websites)
     {
         //Get urls from link store
-        auto homepageLink = linkStore.getByUrl(website.getHomepage());
+        const auto& homepageLink = linkStore.getByUrl(website.getHomepage());
         if (homepageLink.has_value())
         {
             //If url is already in link store, then update status

@@ -11,7 +11,6 @@ Parser::Parser(const std::string& url,const std::string& html){
 
 //relative to absolute????
 void Parser::extractUrls(GumboNode* node){
-    //vercnum enq node-y u ayd nodeic sksac man enq galis ayn tagery voronc mej link ka(a tagery)
     if (node->type != GUMBO_NODE_ELEMENT) {
         return;
     }
@@ -36,8 +35,6 @@ void Parser::extractUrls(GumboNode* node){
         */
         this->urls.push_back(href->value);
     }
-
-    //ete orinak sksum enq html tagic iharke da link chi, bayc karox e ira mej parunakel a tager,dra hamar rekursiayov pttvum enq 
     GumboVector* children = &node->v.element.children;
     for (unsigned int i = 0; i < children->length; ++i) {
         this->extractUrls(static_cast<GumboNode*>(children->data[i]));//GumboNode*-new expression
