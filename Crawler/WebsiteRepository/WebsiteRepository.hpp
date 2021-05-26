@@ -1,6 +1,6 @@
 #ifndef WebsiteRepository_hpp
 #define WebsiteRepository_hpp
-//websitery tnorinelu hamar
+
 #include "Website.hpp"
 #include <vector>
 #include <unordered_map>
