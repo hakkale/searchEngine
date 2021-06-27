@@ -35,7 +35,7 @@ public:
     const LinkStatus &getStatus() const;
     time_t getLastLoadTime() const;
     Link& operator== (const Link&);
-    Link& operator=(const Link&);
+    Link& operator=(const Link&)= default;
     
 };
 

@@ -5,17 +5,18 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
-
+//#include <mysql-cppconn-8/mysqlx/xdevapi.h>
 class WebsiteRepository
 {
 private:
 
     std::unordered_map<std::string, Website> websites;
+    //mysqlx::Client client;    
 
 public:
-
     WebsiteRepository(){};
     WebsiteRepository(const std::vector<Website>& websites);
+    //WebsiteRepository(std::shared_ptr<mysqlx::Client> client);
     /*
      * Return all websites
      */

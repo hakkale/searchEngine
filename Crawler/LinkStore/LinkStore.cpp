@@ -10,7 +10,7 @@ const std::vector<Link> LinkStore::getAll() const
 
 std::optional<Link> LinkStore::getByUrl(const std::string &url) const
 {
-    for (const auto &link : all)
+    for (auto &link : all)
     {
         if (link.getUrl() == url)
         {
@@ -41,15 +41,18 @@ void LinkStore::add(const Link &link)
     all.push_back(link);
 }
 
-void LinkStore::update(const Link &link)
+void LinkStore::update(Link link)
 {
-    const auto& linkIter = std::find(all.begin(), all.end(), link);
-    if (linkIter != all.end()) {
-        *linkIter = link;
+    for(auto &newLink : all)
+    {
+        if(newLink.getUrl() == link.getUrl())
+        {
+            newLink = link;
+            return;
+        }
     }
-    else {
-        all.push_back(link);
-    }
+    all.push_back(link);
+    
 }
 
 std::size_t LinkStore::count() const

@@ -1,5 +1,5 @@
 #ifndef DOCUMENTSTORE_HPP
-#define DOCUMENTSTORE__HPP
+#define DOCUMENTSTORE_HPP
 
 #include "Document.hpp"
 #include <string>
@@ -13,8 +13,8 @@ private:
 
 public:
 
-    const std::vector<Document>& getAll() const;
-    void save(const Document& doc);
+    std::vector<Document> getAll() const;
+    void save(const Document& document);
     std::size_t count() const;
     
 };

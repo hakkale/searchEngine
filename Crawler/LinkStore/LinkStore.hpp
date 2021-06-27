@@ -6,7 +6,6 @@
 #include <vector>
 #include <string>
 #include <optional>
-
 class LinkStore
 {
 private:
@@ -32,11 +31,13 @@ public:
     /*
      * Update info for link
      */
-    void update(const Link &link);
+    void update(Link link);
     /*
      * The count of links for editing
      */
+
     std::size_t count() const;
+    LinkStore& operator=(const LinkStore&)= default;
 
 };
 

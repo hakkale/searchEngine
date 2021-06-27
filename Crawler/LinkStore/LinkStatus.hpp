@@ -4,9 +4,9 @@
 // u sa takic darnalu e class static popoxakannerov u W arjeqy linlu e 0, L=1, E=2
 enum class LinkStatus
 {
-    WAITING,
-    LOADED,
-    ERROR
+    WAITING = 0,
+    LOADED = 1,
+    ERROR = 2
 };
 
 #endif

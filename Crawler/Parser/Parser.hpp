@@ -1,11 +1,12 @@
 #ifndef Parser_hpp
 #define Parser_hpp
 
+#include <iostream>
 #include <string>
 #include <vector>
 #include <gumbo.h>
 #include <optional>
-
+#include <boost/regex.hpp>
 class Parser {
 private:
     /**
@@ -44,6 +45,7 @@ private:
 public:
 
     Parser(const std::string& url,const std::string& html);
+    std::vector<std::pair<std::string, std::string> > checkByDomain(std::vector<std::string>& links, const std::string& domain);
     /**
      * Parse the HTML document.
      */

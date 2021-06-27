@@ -9,7 +9,7 @@
 
 int main()
 {
-
+    //mysqlx::Client client ;
     WebsiteRepository websiteRepository;
     websiteRepository.add(Website("rau.am", "https://rau.am", 0));
 
@@ -28,6 +28,7 @@ int main()
         {
             //If url is already in link store, then update status
             linkStore.update(Link(website.getHomepage(),website.getDomain(),LinkStatus::WAITING,homepageLink.value().getLastLoadTime()));
+    
         }
         else
         {

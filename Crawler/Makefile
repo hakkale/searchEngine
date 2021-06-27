@@ -1,12 +1,17 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall
+CXXFLAGS = -std=c++17 
 
-LDLIBS = -lcurl -I /home/linuxbrew/.linuxbrew/Cellar/gumbo-parser/include -L /home/linuxbrew/.linuxbrew/Cellar/gumbo-parser/0.10.1/lib -lgumbo
+CURL_LINKER_FLAG				= -lcurl
+
+GUMBO_COMPILER_FLAG 			= -I /home/linuxbrew/.linuxbrew/Cellar/gumbo-parser/include 
+GUMBO_LINKER_FLAGS 				= -L /home/linuxbrew/.linuxbrew/Cellar/gumbo-parser/0.10.1/lib -lgumbo
+
+ALL_LINKER_FLAGS = ${CURL_LINKER_FLAG} ${GUMBO_LINKER_FLAGS} 
 
 all: CrawlerTest
 
 CrawlerTest: main.o PageLoader.o LoadResult.o Parser.o Website.o WebsiteRepository.o Link.o LinkStore.o Document.o DocumentStore.o
-	$(CXX) $(CXXFLAGS) main.o PageLoader.o LoadResult.o Parser.o Website.o WebsiteRepository.o Link.o LinkStore.o Document.o DocumentStore.o ${LDLIBS} -o CrawlerTest 
+	$(CXX) $(CXXFLAGS)   main.o PageLoader.o LoadResult.o Parser.o Website.o WebsiteRepository.o Link.o LinkStore.o Document.o DocumentStore.o ${ALL_LINKER_FLAGS} -o CrawlerTest 
 
 main.o: main.cpp
 	$(CXX) $(CXXFLAGS) -c main.cpp -o main.o
@@ -18,7 +23,7 @@ LoadResult.o: ./PageLoader/LoadResult.cpp
 	$(CXX) $(CXXFLAGS) -c ./PageLoader/LoadResult.cpp -o LoadResult.o
 
 Parser.o: ./Parser/Parser.cpp
-	$(CXX) $(CXXFLAGS) -c ./Parser/Parser.cpp -o Parser.o
+	$(CXX) $(CXXFLAGS) ${GUMBO_COMPILER_FLAG} -c ./Parser/Parser.cpp -o Parser.o
 
 Website.o: ./WebsiteRepository/Website.cpp
 	$(CXX) $(CXXFLAGS) -c ./WebsiteRepository/Website.cpp -o Website.o
